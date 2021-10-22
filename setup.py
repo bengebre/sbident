@@ -12,5 +12,5 @@ setuptools.setup(
     project_urls = {'Issues': 'https://github.com/bengebre/SBIdent/issues'},
     license='MIT',
     packages=['SBIdent'],
-    install_requires=['requests', 'warnings', 'pandas', 'astropy', 'urllib'],
+    install_requires=['requests', 'pandas', 'astropy'],
 )
