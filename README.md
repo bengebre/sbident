@@ -15,9 +15,9 @@ from sbident import SBIdent
 from astropy.time import Time
 from astropy.coordinates import SkyCoord
 
-mpc_obs = '567' #MPC observatory code
-time = Time.now()
-center = SkyCoord(10, -20, unit="deg")
+mpc_obs = '567' #observer location (MPC observatory code)
+time = Time.now() #observing time
+center = SkyCoord(10, -20, unit="deg") #observer field of view center
 
 sbid = SBIdent(mpc_obs, time, center)
 sbid.table #returns table of SSOs requested
