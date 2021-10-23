@@ -1,4 +1,4 @@
-# SBIdent
+# sbident
 A Python library for querying the [JPL Small Body Identification API](https://ssd-api.jpl.nasa.gov/doc/sb_ident.html)
 
 ## About
