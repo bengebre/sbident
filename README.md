@@ -6,7 +6,7 @@ The Small Body Identification API returns known Solar System Objects within a fi
 
 ## Installation
 ```console
-pip install git+https://github.com/bengebre/SBIdent
+pip install git+https://github.com/bengebre/sbident
 ```
 
 ## Usage
