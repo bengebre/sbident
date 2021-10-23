@@ -19,6 +19,6 @@ mpc_obs = '567'                         #observer location (MPC observatory code
 time = Time.now()                       #observing time
 center = SkyCoord(10, -20, unit="deg")  #observer field of view center
 
-sbid = SBIdent(mpc_obs, time, center)
+sbid = SBIdent(mpc_obs, time, center)   #query API 
 sbid.table                              #returns table of SSOs requested
 ```
