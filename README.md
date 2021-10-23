@@ -20,5 +20,5 @@ time = Time.now()                       #observing time
 center = SkyCoord(10, -20, unit="deg")  #observer field of view center
 
 sbid = SBIdent(mpc_obs, time, center)
-sbid.table #returns table of SSOs requested
+sbid.table                              #returns table of SSOs requested
 ```
