@@ -1,6 +1,6 @@
 import requests
 import warnings
-import pandas as pd
+from pandas import DataFrame
 from astropy.time import Time
 from astropy.table import Table
 from astropy.coordinates import SkyCoord
@@ -235,7 +235,7 @@ class SBIdent:
 		# the actual json parse
 		rows = self.json[self.data_field]
 		columns = self.json[col_field]
-		df = pd.DataFrame(rows, columns=columns)
+		df = DataFrame(rows, columns=columns)
 		table = Table.from_pandas(df)
 		self.table = table
 
