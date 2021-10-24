@@ -2,7 +2,7 @@
 A Python module for querying the [JPL Small Body Identification API](https://ssd-api.jpl.nasa.gov/doc/sb_ident.html)
 
 ## About
-The Small Body Identification API returns known Solar System Objects within a field of view at a specified time at an observer location.  The sbident module is a lightweight implementation of this API that returns results in an Astropy table.
+The Small Body Identification API returns known Solar System Objects within a field of view at a specified time for an observer location.  The sbident module is a lightweight implementation of this API that returns results in an Astropy table.
 
 ## Installation
 ```console
