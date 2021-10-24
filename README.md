@@ -2,50 +2,36 @@
 A Python module for querying the [JPL Small Body Identification API](https://ssd-api.jpl.nasa.gov/doc/sb_ident.html)
 
 ## About
-The Small Body Identification API returns known Solar System Objects within a field of view at a specified time and observer location.  The sbident module is a lightweight implementation of this API that returns the results as an Astropy table.
+The Small Body Identification API returns known Solar System Objects within a field of view at a specified time at an observer location.  The sbident module is a lightweight implementation of this API that returns results in an Astropy table.
 
 ## Installation
 ```console
 pip install git+https://github.com/bengebre/sbident
 ```
 
-## Usage
+## Basic usage
 ```python
 from sbident import SBIdent
 from astropy.time import Time
 from astropy.coordinates import SkyCoord
 
 mpc_obs = '567'                         #observer location (MPC observatory code)
-time = Time.now()                       #observing time
-center = SkyCoord(10, -20, unit="deg")  #observer field of view center
+center = SkyCoord(10, -20, unit="deg")  #observing time
+time = Time('2021-10-01 00:00:00')      #observer field of view
 
-sbid = SBIdent(mpc_obs, time, center)   #query API 
-print(sbid.table)                       #table of SSOs requested
+#query the API with (optional) magnitude limit, field of view half width (deg) and precision filters
+sbid = SBIdent(mpc_obs, time, center, maglim=19, hwidth=1, precision='high')
+
+print(sbid.table)                       #table of SSOs returned
 ```
 ```
-    Object name      Astrometric RA (hh:mm:ss) ... Est. error Dec (")
--------------------- ------------------------- ... ------------------
-  20701 (1999 VL179)                  00:39:52 ...              27.68
-   89382 (2001 VS97)                  00:38:40 ...              34.67
-   95046 (2002 AY36)                  00:39:09 ...              31.66
-   128028 (2003 KM5)                  00:37:50 ...              37.36
- 356741 (2011 UZ204)                  00:38:24 ...              30.15
-  359131 (2009 BL77)                  00:40:03 ...              33.01
-  386490 (2009 AZ47)                  00:40:55 ...              28.69
-  475798 (2006 XH54)                  00:37:55 ...              36.91
- 501925 (2014 WP487)                  00:40:06 ...              33.36
-           (1927 LA)                  23:42:18 ...              5.5E6
-                 ...                       ... ...                ...
-   C/2017 M5 (TOTAS)                  01:43:29 ...              1.7E5
-  C/2017 S7 (Lemmon)                  02:14:01 ...              2.1E5
- P/2017 Y3 (Leonard)                  00:58:30 ...              2.2E5
-   C/2018 A3 (ATLAS)                  00:21:01 ...              1.1E5
-  C/2018 C2 (Lemmon)                  00:32:45 ...              1.6E5
- C/2018 DO4 (Lemmon)                  21:21:08 ...              1.8E5
- C/2018 EF9 (Lemmon)                  00:26:28 ...              1.7E5
- C/2018 K1 (Weiland)                  11:22:26 ...              8.0E5
-C/2018 M1 (Catalina)                  10:14:28 ...              7.4E5
-   C/2018 O1 (ATLAS)                  09:37:26 ...              9.2E5
-C/2018 W1 (Catalina)                  15:52:01 ...              5.3E5
-Length = 1530 rows
+    Object name     Astrometric RA (hh:mm:ss) Astrometric Dec (dd mm'ss") Dist. from center RA (") Dist. from center Dec (") Dist. from center Norm (") Visual magnitude (V) RA rate ("/h) Dec rate ("/h)
+------------------- ------------------------- --------------------------- ------------------------ ------------------------- -------------------------- -------------------- ------------- --------------
+  35889 (1999 JA81)               00:41:42.21                -19 04'47.8"                     1.E3                      3.E3                      3614.                 18.6    -3.174E+01     -1.306E+01
+ 57855 (2001 XT144)               00:40:35.35                -20 39'18.8"                     498.                     -2.E3                      2411.                 18.8    -3.346E+01     -9.137E+00
+  91101 (1998 HK15)               00:37:26.23                -20 33'44.7"                    -2.E3                     -2.E3                      2963.                 17.7    -3.600E+01     -6.281E-01
+ 93867 (2000 WQ115)               00:41:43.02                -19 05'14.9"                     1.E3                      3.E3                      3593.                 17.8    -3.701E+01     -8.077E-01
+  120306 (2004 KE6)               00:36:31.25                -20 30'11.0"                    -3.E3                     -2.E3                      3451.                 19.0    -3.658E+01     -2.018E+00
+ 172806 (2004 GT10)               00:40:33.40                -19 43'58.6"                     471.                      961.                      1071.                 18.7    -2.659E+01     -1.926E+01
+255370 (2005 WS111)               00:41:44.59                -20 05'42.9"                     1.E3                     -343.                      1512.                 18.8    -3.015E+01     -5.458E+00
 ```
