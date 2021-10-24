@@ -22,6 +22,10 @@ class SBIdent:
 		self.summary = None
 		self.data_field = None
 		self.table = None
+		self.num_results = 0
+
+		# minimal warning format
+		warnings.formatwarning = lambda msg, *args, **kwargs: f'{msg}\n'
 
 		# args: elem, magreq, request
 		# test boolean arguments are boolean and set
@@ -83,10 +87,10 @@ class SBIdent:
 				self.location = {'xobs-hel': location['xobs-hel']}
 			else:
 				# location missing some required fields
-				raise ValueError('location must be of formats ...')
+				raise ValueError('location input missing some required fields')
 		else:
 				# location type unexpected
-				raise TypeError('Unexpected argument type for location')
+				raise TypeError('Unexpected argument type for location. Must be string or dictionary.')
 
 		# parse obstime; handle string, float (jdate), Time or dict
 		if isinstance(obstime, str):
@@ -103,7 +107,7 @@ class SBIdent:
 			self.obstime = obstime
 		else:
 			# obstime type unexpected
-			raise TypeError('Unexpected argument type for obstime. Must be string, float (jdate) or Time')
+			raise TypeError('Unexpected argument type for obstime. Must be string, float (jdate) or Time.')
 
 		# parse and rewrite fov when a SkyCoord center
 		if isinstance(fov, SkyCoord):
@@ -186,7 +190,7 @@ class SBIdent:
 
 		# report API error if one exists
 		if 'code' in self.json:
-			raise SystemError("API returned an error: {}".format(self.json['message']))
+			raise SystemError("API error: {}".format(self.json['message']))
 
 		# warn if API version is unexpected
 		ver = self.json['signature']['version']
@@ -197,7 +201,14 @@ class SBIdent:
 	def parse_json(self):
 		# make sure json exists
 		if self.json is None:
-			raise UnboundLocalError("No json to parse")
+			raise UnboundLocalError("No json to parse in API response")
+
+		# report API warning if one exists
+		if 'warning' in self.json:
+			warnings.warn("API warning: {}".format(self.json['warning']))
+
+		# set summary
+		self.summary = self.json['summary']
 
 		# set table to the most precise table present
 		data_fields = ['data_second_pass', 'data_first_pass', 'elem_first_pass', 'elem_second_pass']
@@ -206,11 +217,20 @@ class SBIdent:
 				self.data_field = d
 				continue
 
+		# no data returned
+		if self.data_field is None:
+			return
+
 		# column fields depend on first or second pass selection
 		if 'first' in self.data_field:
 			col_field = 'fields_first'
+			count_field = 'n_first_pass'
 		else:
 			col_field = 'fields_second'
+			count_field = 'n_second_pass'
+
+		# rows in table
+		self.num_results = self.json[count_field]
 
 		# the actual json parse
 		rows = self.json[self.data_field]
@@ -218,9 +238,6 @@ class SBIdent:
 		df = pd.DataFrame(rows, columns=columns)
 		table = Table.from_pandas(df)
 		self.table = table
-
-		# set summary
-		self.summary = self.json['summary']
 
 	def make_request(self):
 		# make the API call and parse return
