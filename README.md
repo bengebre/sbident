@@ -22,7 +22,7 @@ time = Time('2021-10-01 00:00:00')      #observing time
 #query the API with (optional) magnitude limit, field of view half width (deg) and precision filters
 sbid = SBIdent(mpc_obs, time, center, maglim=19, hwidth=1, precision='high')
 
-print(sbid.table)                       #table of SSOs returned
+print(sbid.results)                     #table of SSOs returned
 ```
 ```
     Object name     Astrometric RA (hh:mm:ss) Astrometric Dec (dd mm'ss") Dist. from center RA (") Dist. from center Dec (") Dist. from center Norm (") Visual magnitude (V) RA rate ("/h) Dec rate ("/h)
