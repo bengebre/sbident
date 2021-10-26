@@ -36,3 +36,6 @@ print(sbid.results)                     #table of SSOs returned
  172806 (2004 GT10)               00:40:33.40                -19 43'58.6"                     471.                      961.                      1071.                 18.7    -2.659E+01     -1.926E+01
 255370 (2005 WS111)               00:41:44.59                -20 05'42.9"                     1.E3                     -343.                      1512.                 18.8    -3.015E+01     -5.458E+00
 ```
+
+## More examples
+More examples are available in the fully rendered Jupyter notebook in the [examples](https://github.com/bengebre/sbident/examples/) directory.
