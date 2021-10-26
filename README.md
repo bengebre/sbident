@@ -16,8 +16,8 @@ from astropy.time import Time
 from astropy.coordinates import SkyCoord
 
 mpc_obs = '567'                         #observer location (MPC observatory code)
-center = SkyCoord(10, -20, unit="deg")  #observing field of view center
 time = Time('2021-10-01 00:00:00')      #observing time
+center = SkyCoord(10, -20, unit="deg")  #observing field of view center
 
 #query the API with (optional) magnitude limit, field of view half width (deg) and precision filters
 sbid = SBIdent(mpc_obs, time, center, maglim=19, hwidth=1, precision='high')
