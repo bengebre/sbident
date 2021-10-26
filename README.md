@@ -38,4 +38,4 @@ print(sbid.results)                     #table of SSOs returned
 ```
 
 ## More examples
-More examples are available in the fully rendered Jupyter notebook in the [examples](https://github.com/bengebre/sbident/examples/) directory.
+More examples are available in the [rendered examples notebook](https://github.com/bengebre/sbident/blob/main/examples/sbident-examples.ipynb) in the [examples](https://github.com/bengebre/sbident/blob/main/examples/) directory.
