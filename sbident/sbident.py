@@ -8,7 +8,7 @@ from urllib.parse import urlencode
 
 class SBIdent:
 	"""
-	A class for querying the JPL Small Body Identification API
+	A class for querying the JPL Small Body Identification API:
 	https://ssd-api.jpl.nasa.gov/doc/sb_ident.html
 
 	Parameters
