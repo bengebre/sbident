@@ -37,5 +37,5 @@ print(sbid.results)                     #table of SSOs returned
 255370 (2005 WS111)               00:41:44.59                -20 05'42.9"                     1.E3                     -343.                      1512.                 18.8    -3.015E+01     -5.458E+00
 ```
 
-## More examples
-More examples are available in this [rendered notebook](https://github.com/bengebre/sbident/blob/main/examples/sbident-examples.ipynb) in the [examples](https://github.com/bengebre/sbident/blob/main/examples/) directory.
+## More information
+See the [documentation](https://github.com/bengebre/sbident/tree/main/docs).  More examples available in this [notebook](https://github.com/bengebre/sbident/blob/main/examples/sbident-examples.ipynb).
