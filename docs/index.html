@@ -100,7 +100,7 @@ sbident    </h1>
 <span class="sd">	The API version this code expects from JPL.</span>
 <span class="sd">	&quot;&quot;&quot;</span>
 
-	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">obstime</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fov</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="s1">&#39;low&#39;</span><span class="p">,</span> <span class="n">hwidth</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">elem</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">maglim</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">obstime</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fov</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="s1">&#39;high&#39;</span><span class="p">,</span> <span class="n">hwidth</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">elem</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">maglim</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
 							<span class="n">magreq</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">request</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
 
 		<span class="sd">&quot;&quot;&quot;</span>
@@ -115,7 +115,7 @@ sbident    </h1>
 <span class="sd">		hwidth : numeric or list-like, optional</span>
 <span class="sd">			Half width of the field of view (in degrees) when field of view specified by a center-based SkyCoord.  If hwdith is a single numeric value both RA and DEC will have the same width.  If hwidth is list-like the RA and DEC width will correspond to the first and second elements of the list respectively.  API defaults to 0.5 if not specified. default: None</span>
 <span class="sd">		precision : &#39;low&#39; or &#39;high&#39;, optional</span>
-<span class="sd">			Fidelity of the model used to calculate object position.  &#39;low&#39; is a two-body model, &#39;high&#39; is a numerically integrated force model. default: &#39;low&#39;</span>
+<span class="sd">			Fidelity of the model used to calculate object position.  &#39;low&#39; is a two-body model, &#39;high&#39; is a numerically integrated force model. default: &#39;high&#39;</span>
 <span class="sd">		elem : bool, optional</span>
 <span class="sd">			When true return osculating orbital elements instead of RA and DEC. default: False</span>
 <span class="sd">		maglim : numeric, optional</span>
@@ -418,7 +418,7 @@ sbident    </h1>
 <span class="sd">	The API version this code expects from JPL.</span>
 <span class="sd">	&quot;&quot;&quot;</span>
 
-	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">obstime</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fov</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="s1">&#39;low&#39;</span><span class="p">,</span> <span class="n">hwidth</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">elem</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">maglim</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">obstime</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fov</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="s1">&#39;high&#39;</span><span class="p">,</span> <span class="n">hwidth</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">elem</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">maglim</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
 							<span class="n">magreq</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">request</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
 
 		<span class="sd">&quot;&quot;&quot;</span>
@@ -433,7 +433,7 @@ sbident    </h1>
 <span class="sd">		hwidth : numeric or list-like, optional</span>
 <span class="sd">			Half width of the field of view (in degrees) when field of view specified by a center-based SkyCoord.  If hwdith is a single numeric value both RA and DEC will have the same width.  If hwidth is list-like the RA and DEC width will correspond to the first and second elements of the list respectively.  API defaults to 0.5 if not specified. default: None</span>
 <span class="sd">		precision : &#39;low&#39; or &#39;high&#39;, optional</span>
-<span class="sd">			Fidelity of the model used to calculate object position.  &#39;low&#39; is a two-body model, &#39;high&#39; is a numerically integrated force model. default: &#39;low&#39;</span>
+<span class="sd">			Fidelity of the model used to calculate object position.  &#39;low&#39; is a two-body model, &#39;high&#39; is a numerically integrated force model. default: &#39;high&#39;</span>
 <span class="sd">		elem : bool, optional</span>
 <span class="sd">			When true return osculating orbital elements instead of RA and DEC. default: False</span>
 <span class="sd">		maglim : numeric, optional</span>
@@ -728,7 +728,7 @@ The URI that is generated by the object instantiation.</li>
     location=None,
     obstime=None,
     fov=None,
-    precision=&#39;low&#39;,
+    precision=&#39;high&#39;,
     hwidth=None,
     elem=False,
     maglim=None,
@@ -740,7 +740,7 @@ The URI that is generated by the object instantiation.</li>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">obstime</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fov</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="s1">&#39;low&#39;</span><span class="p">,</span> <span class="n">hwidth</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">elem</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">maglim</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
+            <div class="codehilite"><pre><span></span>	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">obstime</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fov</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="s1">&#39;high&#39;</span><span class="p">,</span> <span class="n">hwidth</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">elem</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">maglim</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
 							<span class="n">magreq</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">request</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
 
 		<span class="sd">&quot;&quot;&quot;</span>
@@ -755,7 +755,7 @@ The URI that is generated by the object instantiation.</li>
 <span class="sd">		hwidth : numeric or list-like, optional</span>
 <span class="sd">			Half width of the field of view (in degrees) when field of view specified by a center-based SkyCoord.  If hwdith is a single numeric value both RA and DEC will have the same width.  If hwidth is list-like the RA and DEC width will correspond to the first and second elements of the list respectively.  API defaults to 0.5 if not specified. default: None</span>
 <span class="sd">		precision : &#39;low&#39; or &#39;high&#39;, optional</span>
-<span class="sd">			Fidelity of the model used to calculate object position.  &#39;low&#39; is a two-body model, &#39;high&#39; is a numerically integrated force model. default: &#39;low&#39;</span>
+<span class="sd">			Fidelity of the model used to calculate object position.  &#39;low&#39; is a two-body model, &#39;high&#39; is a numerically integrated force model. default: &#39;high&#39;</span>
 <span class="sd">		elem : bool, optional</span>
 <span class="sd">			When true return osculating orbital elements instead of RA and DEC. default: False</span>
 <span class="sd">		maglim : numeric, optional</span>
@@ -917,7 +917,7 @@ Field of view.  Specify a center-based field of view with a SkyCoord or form a d
 <li><strong>hwidth</strong> (numeric or list-like, optional):
 Half width of the field of view (in degrees) when field of view specified by a center-based SkyCoord.  If hwdith is a single numeric value both RA and DEC will have the same width.  If hwidth is list-like the RA and DEC width will correspond to the first and second elements of the list respectively.  API defaults to 0.5 if not specified. default: None</li>
 <li><strong>precision</strong> ('low' or 'high', optional):
-Fidelity of the model used to calculate object position.  'low' is a two-body model, 'high' is a numerically integrated force model. default: 'low'</li>
+Fidelity of the model used to calculate object position.  'low' is a two-body model, 'high' is a numerically integrated force model. default: 'high'</li>
 <li><strong>elem</strong> (bool, optional):
 When true return osculating orbital elements instead of RA and DEC. default: False</li>
 <li><strong>maglim</strong> (numeric, optional):
