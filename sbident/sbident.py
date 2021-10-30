@@ -39,7 +39,7 @@ class SBIdent:
 		location : str or dict, required
 			The observer location.  Can be an MPC observatory code string or a dictionary of the following formats specified in the API documentation: geodetic coordinates, parallax, geocentric state vector or heliocentric state vector.
 		obstime : numeric or time, required
-			The time of observation.  Can be a numeric in which case it is assumed to be a Julian date.  Otherwise use a time object.
+			The time of observation.  Can be numeric in which case it is assumed to be a Julian date.  Otherwise use a time object.
 		fov : SkyCoord or dict, required
 			Field of view.  Specify a center-based field of view with a SkyCoord or form a dictionary as specified by the API 'field of view' specifications for an edge-based field of view.
 		hwidth : numeric or list-like, optional
@@ -203,7 +203,7 @@ class SBIdent:
 
 	def form_uri(self):
 		"""
-		Forms the uri from parameters specified by instantiation.
+		Forms the URI from parameters specified by instantiation.
 		"""
 
 		base_uri = "https://ssd-api.jpl.nasa.gov/sb_ident.api?"
@@ -225,7 +225,7 @@ class SBIdent:
 
 	def read_uri(self):
 		"""
-		Makes the API request a checks for warnings or errors in the response.
+		Makes the API request and checks for warnings or errors in the response.
 		"""
 
 		# read & set json
