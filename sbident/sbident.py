@@ -43,7 +43,7 @@ class SBIdent:
 		fov : SkyCoord or dict, required
 			Field of view.  Specify a center-based field of view with a SkyCoord or form a dictionary as specified by the API 'field of view' specifications for an edge-based field of view.
 		hwidth : numeric or list-like, optional
-			Half width of the field of view (in degrees) when field of view specified by a center-based SkyCoord.  If hwdith is a single numeric value both RA and DEC will have the same width.  If hwidth is list-like the RA and DEC width will correspond to the first and second elements of the list respectively.  API defaults to 0.5 if not specified. default: None
+			Half width of the field of view (in degrees) when field of view specified by a center-based SkyCoord.  If hwdith is a single numeric value both RA and DEC will have the same width.  If hwidth is list-like the RA and DEC width will correspond to the first and second elements of the list respectively.  API defaults to 0.5 if not specified.  Ignored if not using a center-based field of view.  default: None
 		precision : 'low' or 'high', optional
 			Fidelity of the model used to calculate object position.  'low' is a two-body model, 'high' is a numerically integrated force model. default: 'high'
 		elem : bool, optional
