@@ -4,6 +4,11 @@ A Python package for querying the [JPL Small Body Identification API](https://ss
 ## About
 The Small Body Identification API returns known Solar System Objects within a field of view at a specified time for an observer location.  The sbident package is a lightweight implementation of this API that returns results in an [Astropy](https://www.astropy.org/) table.
 
+## Use case: identifying Solar System Objects in difference images
+The image below is an 18 frame composite difference image from [TESS](https://tess.mit.edu/) observations.  The circles show detections that match a sbident Solar System Object position at least 6 times.
+
+![sbident objects in a difference image](https://www.benengebreth.org/misc/sbident_streaks.png?1=1)
+
 ## Installation
 ```console
 pip install git+https://github.com/bengebre/sbident
