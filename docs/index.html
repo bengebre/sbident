@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="pdoc 8.0.0" />
+    <meta name="generator" content="pdoc 8.0.1" />
     <title>sbident API documentation</title>
 
 
@@ -100,8 +100,8 @@ sbident    </h1>
 <span class="sd">	The API version this code expects from JPL.</span>
 <span class="sd">	&quot;&quot;&quot;</span>
 
-	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">obstime</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fov</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="s1">&#39;high&#39;</span><span class="p">,</span> <span class="n">hwidth</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">elem</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">maglim</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
-							<span class="n">magreq</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">request</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">obstime</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fov</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="s1">&#39;high&#39;</span><span class="p">,</span> <span class="n">hwidth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">elem</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">maglim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+							<span class="n">magreq</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">request</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 
 		<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">		Parameters</span>
@@ -110,8 +110,8 @@ sbident    </h1>
 <span class="sd">			The observer location.  Can be an MPC observatory code string or a dictionary of the following formats specified in the API documentation: geodetic coordinates, parallax, geocentric state vector or heliocentric state vector.</span>
 <span class="sd">		obstime : numeric or time, required</span>
 <span class="sd">			The time of observation.  Can be numeric in which case it is assumed to be a Julian date.  Otherwise use a time object.</span>
-<span class="sd">		fov : SkyCoord or dict, required</span>
-<span class="sd">			Field of view.  Specify a center-based field of view with a SkyCoord or form a dictionary as specified by the API &#39;field of view&#39; specifications for an edge-based field of view.</span>
+<span class="sd">		fov : SkyCoord or list-like of SkyCoord or dict, required</span>
+<span class="sd">			Field of view.  Specify a center-based field of view with a SkyCoord or an edge based field of view with a list (of length 2) of SkyCoords.</span>
 <span class="sd">		hwidth : numeric or list-like, optional</span>
 <span class="sd">			Half width of the field of view (in degrees) when field of view specified by a center-based SkyCoord.  If hwdith is a single numeric value both RA and DEC will have the same width.  If hwidth is list-like the RA and DEC width will correspond to the first and second elements of the list respectively.  API defaults to 0.5 if not specified.  Ignored if not using a center-based field of view.  default: None</span>
 <span class="sd">		precision : &#39;low&#39; or &#39;high&#39;, optional</span>
@@ -129,19 +129,19 @@ sbident    </h1>
 <span class="sd">		&quot;&quot;&quot;</span>
 
 		<span class="c1"># initializing some attributes</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">json</span> <span class="o">=</span> <span class="bp">None</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">summary</span> <span class="o">=</span> <span class="bp">None</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">data_field</span> <span class="o">=</span> <span class="bp">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">json</span> <span class="o">=</span> <span class="kc">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">summary</span> <span class="o">=</span> <span class="kc">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">data_field</span> <span class="o">=</span> <span class="kc">None</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span>
 
 		<span class="c1"># minimal warning format</span>
-		<span class="n">warnings</span><span class="o">.</span><span class="n">formatwarning</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">msg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">f</span><span class="s1">&#39;{msg}</span><span class="se">\n</span><span class="s1">&#39;</span>
+		<span class="n">warnings</span><span class="o">.</span><span class="n">formatwarning</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">msg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;Warning: </span><span class="si">{</span><span class="n">msg</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span>
 
 		<span class="c1"># args: elem, magreq, request</span>
 		<span class="c1"># test boolean arguments are boolean and set</span>
 		<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;elem&#39;</span><span class="p">,</span> <span class="s1">&#39;magreq&#39;</span><span class="p">,</span> <span class="s1">&#39;request&#39;</span><span class="p">]:</span>
 			<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">bool</span><span class="p">):</span>
-				<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;{} must be either True or False&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+				<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="si">{}</span><span class="s2">&#39; must be either True or False&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
 
 		<span class="bp">self</span><span class="o">.</span><span class="n">elem</span> <span class="o">=</span> <span class="n">elem</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">req_elem</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;req-elem&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()}</span>
@@ -155,11 +155,11 @@ sbident    </h1>
 		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">maglim</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span><span class="nb">float</span><span class="p">)):</span> 
 			<span class="bp">self</span><span class="o">.</span><span class="n">maglim</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">maglim</span><span class="p">)</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">vmag_lim</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;vmag-lim&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">maglim</span><span class="p">}</span>
-		<span class="k">elif</span> <span class="n">maglim</span><span class="o">==</span><span class="bp">None</span><span class="p">:</span>
+		<span class="k">elif</span> <span class="n">maglim</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">maglim</span> <span class="o">=</span> <span class="n">maglim</span>
-			<span class="bp">self</span><span class="o">.</span><span class="n">vmag_lim</span> <span class="o">=</span> <span class="bp">None</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">vmag_lim</span> <span class="o">=</span> <span class="kc">None</span>
 		<span class="k">else</span><span class="p">:</span>
-			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;maglim must be either numeric or None&quot;</span><span class="p">)</span>
+			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;maglim&#39; must be either numeric or None&quot;</span><span class="p">)</span>
 
 		<span class="c1"># test precision is either &#39;high&#39; or &#39;low&#39;</span>
 		<span class="k">if</span> <span class="n">precision</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;high&#39;</span><span class="p">,</span> <span class="s1">&#39;low&#39;</span><span class="p">]:</span>
@@ -170,7 +170,7 @@ sbident    </h1>
 		<span class="bp">self</span><span class="o">.</span><span class="n">suppress_first_pass</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;suppress-first-pass&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="o">==</span><span class="s1">&#39;high&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()}</span>
 
 		<span class="c1"># test filters is dict</span>
-		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">or</span> <span class="n">filters</span><span class="o">==</span><span class="bp">None</span><span class="p">:</span>
+		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">or</span> <span class="n">filters</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">filters</span> <span class="o">=</span> <span class="n">filters</span>
 		<span class="k">else</span><span class="p">:</span>
 			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;filters must be either a dictionary or None&quot;</span><span class="p">)</span>
@@ -197,10 +197,10 @@ sbident    </h1>
 				<span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;xobs-hel&#39;</span><span class="p">:</span> <span class="n">location</span><span class="p">[</span><span class="s1">&#39;xobs-hel&#39;</span><span class="p">]}</span>
 			<span class="k">else</span><span class="p">:</span>
 				<span class="c1"># location missing some required fields</span>
-				<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;location argument missing some required fields&#39;</span><span class="p">)</span>
+				<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;location&#39; argument missing some required fields&quot;</span><span class="p">)</span>
 		<span class="k">else</span><span class="p">:</span>
 				<span class="c1"># location type unexpected</span>
-				<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Unexpected argument type for location. Must be string or dictionary.&#39;</span><span class="p">)</span>
+				<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Unexpected argument type for &#39;location&#39;. Must be string or dictionary.&quot;</span><span class="p">)</span>
 
 		<span class="c1"># parse obstime; handle string, float (jdate), Time or dict</span>
 		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obstime</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -208,7 +208,7 @@ sbident    </h1>
 			<span class="bp">self</span><span class="o">.</span><span class="n">obstime</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;obs-time&#39;</span><span class="p">:</span> <span class="n">obstime</span><span class="p">}</span>
 		<span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obstime</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
 			<span class="c1"># assumes float is jdate</span>
-			<span class="bp">self</span><span class="o">.</span><span class="n">obstime</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;obs-time&#39;</span><span class="p">:</span> <span class="n">Time</span><span class="p">(</span><span class="n">obstime</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s1">&#39;jd&#39;</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">utc</span><span class="o">.</span><span class="n">iso</span><span class="p">}</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">obstime</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;obs-time&#39;</span><span class="p">:</span> <span class="n">Time</span><span class="p">(</span><span class="n">obstime</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;jd&#39;</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">utc</span><span class="o">.</span><span class="n">iso</span><span class="p">}</span>
 		<span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obstime</span><span class="p">,</span> <span class="n">Time</span><span class="p">):</span>
 			<span class="c1"># passing Time object</span>
 			<span class="n">obstime</span><span class="o">.</span><span class="n">precision</span> <span class="o">=</span> <span class="mi">0</span>
@@ -217,22 +217,29 @@ sbident    </h1>
 			<span class="bp">self</span><span class="o">.</span><span class="n">obstime</span> <span class="o">=</span> <span class="n">obstime</span>
 		<span class="k">else</span><span class="p">:</span>
 			<span class="c1"># obstime type unexpected</span>
-			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Unexpected argument type for obstime. Must be string, float (jdate) or Time.&#39;</span><span class="p">)</span>
+			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Unexpected argument type for &#39;obstime&#39;. Must be string, float (jdate) or Time.&quot;</span><span class="p">)</span>
 
-		<span class="c1"># parse and rewrite fov when a SkyCoord center</span>
 		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fov</span><span class="p">,</span> <span class="n">SkyCoord</span><span class="p">):</span>
 			<span class="c1"># if fov is of type SkyCoord get a center relative fov </span>
 			<span class="n">radec_jpl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">skycoord_to_jplstr</span><span class="p">(</span><span class="n">fov</span><span class="p">)</span>
 			<span class="n">fov</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;fov-ra-center&#39;</span><span class="p">:</span> <span class="n">radec_jpl</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;fov-dec-center&#39;</span><span class="p">:</span> <span class="n">radec_jpl</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span>
+		<span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fov</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">fov</span><span class="p">)</span><span class="o">==</span><span class="mi">2</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">SkyCoord</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fov</span><span class="p">):</span>
+			<span class="c1"># if fov is a list or tuple of SkyCoords we treat it as an edge type field of view</span>
+			<span class="n">radec_jpl0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">skycoord_to_jplstr</span><span class="p">(</span><span class="n">fov</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+			<span class="n">radec_jpl1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">skycoord_to_jplstr</span><span class="p">(</span><span class="n">fov</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+			<span class="n">fov</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;fov-ra-lim&#39;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">,</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">radec_jpl0</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">radec_jpl1</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="s1">&#39;fov-dec-lim&#39;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">,</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">radec_jpl0</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">radec_jpl1</span><span class="p">[</span><span class="mi">1</span><span class="p">])}</span>
 			
 		<span class="c1"># handle hwidth - this has precedence if it&#39;s defined</span>
-		<span class="k">if</span> <span class="n">hwidth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+		<span class="k">if</span> <span class="n">hwidth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 			<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">hwidth</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">hwidth</span><span class="p">)</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span>
 				<span class="n">fov</span><span class="p">[</span><span class="s1">&#39;fov-ra-hwidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">hwidth</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 				<span class="n">fov</span><span class="p">[</span><span class="s1">&#39;fov-dec-hwidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">hwidth</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 			<span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">hwidth</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
 				<span class="n">fov</span><span class="p">[</span><span class="s1">&#39;fov-ra-hwidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">hwidth</span><span class="p">)</span>
 				<span class="n">fov</span><span class="p">[</span><span class="s1">&#39;fov-dec-hwidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">hwidth</span><span class="p">)</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="c1">#unexpected hwidth type</span>
+				<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Unexpected argument type for &#39;hwidth&#39;; must be either numeric or list-like of numerics of length 2&quot;</span><span class="p">)</span>
 			
 		<span class="c1"># continued fov parsing</span>
 		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fov</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
@@ -246,28 +253,32 @@ sbident    </h1>
 				<span class="k">if</span> <span class="s1">&#39;fov-dec-hwidth&#39;</span> <span class="ow">in</span> <span class="n">fov</span><span class="p">:</span>
 					<span class="bp">self</span><span class="o">.</span><span class="n">fov</span><span class="p">[</span><span class="s1">&#39;fov-dec-hwidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fov</span><span class="p">[</span><span class="s1">&#39;fov-dec-hwidth&#39;</span><span class="p">]</span>
 			<span class="k">elif</span> <span class="p">(</span><span class="s1">&#39;fov-ra-lim&#39;</span> <span class="ow">in</span> <span class="n">fov</span> <span class="ow">and</span> <span class="s1">&#39;fov-dec-lim&#39;</span> <span class="ow">in</span> <span class="n">fov</span><span class="p">):</span>
-				<span class="c1"># edge fov method</span>
+				<span class="c1"># edge fov method - warn if hwidth defined</span>
 				<span class="bp">self</span><span class="o">.</span><span class="n">fov</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">fov</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;fov-ra-lim&#39;</span><span class="p">,</span> <span class="s1">&#39;fov-dec-lim&#39;</span><span class="p">]}</span>
+				
+				<span class="k">if</span> <span class="n">hwidth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+					<span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;&#39;hwidth&#39; ignored when using an edge-based field of view&quot;</span><span class="p">)</span>
+					
 			<span class="k">else</span><span class="p">:</span>
 				<span class="c1"># fov missing some required fields</span>
-				<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;fov argument missing required keys&#39;</span><span class="p">)</span>
+				<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;fov&#39; argument missing required keys&quot;</span><span class="p">)</span>
 		<span class="k">else</span><span class="p">:</span>
 			<span class="c1"># fov type unexpected</span>
-			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Unexpected argument type for fov; must be either SkyCoord or dictionary&#39;</span><span class="p">)</span>
+			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Unexpected argument type for &#39;fov&#39;; must be either SkyCoord or dictionary&quot;</span><span class="p">)</span>
 
 		<span class="bp">self</span><span class="o">.</span><span class="n">form_uri</span><span class="p">()</span>
 
 		<span class="k">if</span> <span class="n">request</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">make_request</span><span class="p">()</span>
 		<span class="k">else</span><span class="p">:</span>
-			<span class="bp">self</span><span class="o">.</span><span class="n">request</span> <span class="o">=</span> <span class="bp">False</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">request</span> <span class="o">=</span> <span class="kc">False</span>
 
 	<span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">		show representation of object in terms that are instantiate-able</span>
 <span class="sd">		&quot;&quot;&quot;</span>
 
-		<span class="nb">repr</span> <span class="o">=</span> <span class="s2">&quot;&lt;SBIdent(location={l}, obstime={t}, fov={fov}, filters={op}, precision=&#39;{p}&#39;, maglim={ml}, magreq={mr}, request={req})&gt;&quot;</span>
+		<span class="nb">repr</span> <span class="o">=</span> <span class="s2">&quot;&lt;SBIdent(location=</span><span class="si">{l}</span><span class="s2">, obstime=</span><span class="si">{t}</span><span class="s2">, fov=</span><span class="si">{fov}</span><span class="s2">, filters=</span><span class="si">{op}</span><span class="s2">, precision=&#39;</span><span class="si">{p}</span><span class="s2">&#39;, maglim=</span><span class="si">{ml}</span><span class="s2">, magreq=</span><span class="si">{mr}</span><span class="s2">, request=</span><span class="si">{req}</span><span class="s2">)&gt;&quot;</span>
 		<span class="k">return</span> <span class="nb">repr</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">obstime</span><span class="p">,</span> <span class="n">fov</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fov</span><span class="p">,</span> <span class="n">op</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="p">,</span> <span class="n">ml</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">maglim</span><span class="p">,</span>
 											<span class="n">mr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">magreq</span><span class="p">,</span> <span class="n">req</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">)</span>
 
@@ -283,12 +294,12 @@ sbident    </h1>
 						<span class="bp">self</span><span class="o">.</span><span class="n">mag_required</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">req_elem</span><span class="p">]</span>
 
 		<span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">build</span><span class="p">:</span>
-			<span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 				<span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
 
 		<span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="n">base_uri</span> <span class="o">+</span> <span class="n">urlencode</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
 
-		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s2">&quot;&amp;&quot;</span> <span class="o">+</span> <span class="n">urlencode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">)</span>
 
 		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri</span>
@@ -305,12 +316,12 @@ sbident    </h1>
 
 		<span class="c1"># report API error if one exists</span>
 		<span class="k">if</span> <span class="s1">&#39;code&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">:</span>
-			<span class="k">raise</span> <span class="ne">SystemError</span><span class="p">(</span><span class="s2">&quot;API error: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;message&#39;</span><span class="p">]))</span>
+			<span class="k">raise</span> <span class="ne">SystemError</span><span class="p">(</span><span class="s2">&quot;API error: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;message&#39;</span><span class="p">]))</span>
 
 		<span class="c1"># warn if API version is unexpected</span>
 		<span class="n">ver</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;signature&#39;</span><span class="p">][</span><span class="s1">&#39;version&#39;</span><span class="p">]</span>
 		<span class="k">if</span> <span class="n">ver</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">API_VERSION</span><span class="p">:</span>
-			<span class="n">version_warning</span> <span class="o">=</span> <span class="s2">&quot;Expected API version &#39;{ev}&#39; but response indicated version &#39;{v}&#39;. Unexpected behavior possible.&quot;</span>
+			<span class="n">version_warning</span> <span class="o">=</span> <span class="s2">&quot;Expected API version &#39;</span><span class="si">{ev}</span><span class="s2">&#39; but response indicated version &#39;</span><span class="si">{v}</span><span class="s2">&#39;. Unexpected behavior possible.&quot;</span>
 			<span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">version_warning</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">API_VERSION</span><span class="p">,</span><span class="n">ver</span><span class="p">))</span>
 
 	<span class="k">def</span> <span class="nf">parse_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -319,12 +330,12 @@ sbident    </h1>
 <span class="sd">		&quot;&quot;&quot;</span>
 
 		<span class="c1"># make sure json exists</span>
-		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 			<span class="k">raise</span> <span class="ne">UnboundLocalError</span><span class="p">(</span><span class="s2">&quot;No json to parse in API response&quot;</span><span class="p">)</span>
 
 		<span class="c1"># report API warning if one exists</span>
 		<span class="k">if</span> <span class="s1">&#39;warning&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">:</span>
-			<span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;API warning: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;warning&#39;</span><span class="p">]))</span>
+			<span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;API warning: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;warning&#39;</span><span class="p">]))</span>
 
 		<span class="c1"># set summary</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">summary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;summary&#39;</span><span class="p">]</span>
@@ -337,7 +348,7 @@ sbident    </h1>
 				<span class="k">continue</span>
 
 		<span class="c1"># no data returned</span>
-		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_field</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_field</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 			<span class="k">return</span>
 
 		<span class="c1"># column fields depend on first or second pass selection</span>
@@ -418,8 +429,8 @@ sbident    </h1>
 <span class="sd">	The API version this code expects from JPL.</span>
 <span class="sd">	&quot;&quot;&quot;</span>
 
-	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">obstime</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fov</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="s1">&#39;high&#39;</span><span class="p">,</span> <span class="n">hwidth</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">elem</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">maglim</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
-							<span class="n">magreq</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">request</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">obstime</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fov</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="s1">&#39;high&#39;</span><span class="p">,</span> <span class="n">hwidth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">elem</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">maglim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+							<span class="n">magreq</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">request</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 
 		<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">		Parameters</span>
@@ -428,8 +439,8 @@ sbident    </h1>
 <span class="sd">			The observer location.  Can be an MPC observatory code string or a dictionary of the following formats specified in the API documentation: geodetic coordinates, parallax, geocentric state vector or heliocentric state vector.</span>
 <span class="sd">		obstime : numeric or time, required</span>
 <span class="sd">			The time of observation.  Can be numeric in which case it is assumed to be a Julian date.  Otherwise use a time object.</span>
-<span class="sd">		fov : SkyCoord or dict, required</span>
-<span class="sd">			Field of view.  Specify a center-based field of view with a SkyCoord or form a dictionary as specified by the API &#39;field of view&#39; specifications for an edge-based field of view.</span>
+<span class="sd">		fov : SkyCoord or list-like of SkyCoord or dict, required</span>
+<span class="sd">			Field of view.  Specify a center-based field of view with a SkyCoord or an edge based field of view with a list (of length 2) of SkyCoords.</span>
 <span class="sd">		hwidth : numeric or list-like, optional</span>
 <span class="sd">			Half width of the field of view (in degrees) when field of view specified by a center-based SkyCoord.  If hwdith is a single numeric value both RA and DEC will have the same width.  If hwidth is list-like the RA and DEC width will correspond to the first and second elements of the list respectively.  API defaults to 0.5 if not specified.  Ignored if not using a center-based field of view.  default: None</span>
 <span class="sd">		precision : &#39;low&#39; or &#39;high&#39;, optional</span>
@@ -447,19 +458,19 @@ sbident    </h1>
 <span class="sd">		&quot;&quot;&quot;</span>
 
 		<span class="c1"># initializing some attributes</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">json</span> <span class="o">=</span> <span class="bp">None</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">summary</span> <span class="o">=</span> <span class="bp">None</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">data_field</span> <span class="o">=</span> <span class="bp">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">json</span> <span class="o">=</span> <span class="kc">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">summary</span> <span class="o">=</span> <span class="kc">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">data_field</span> <span class="o">=</span> <span class="kc">None</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span>
 
 		<span class="c1"># minimal warning format</span>
-		<span class="n">warnings</span><span class="o">.</span><span class="n">formatwarning</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">msg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">f</span><span class="s1">&#39;{msg}</span><span class="se">\n</span><span class="s1">&#39;</span>
+		<span class="n">warnings</span><span class="o">.</span><span class="n">formatwarning</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">msg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;Warning: </span><span class="si">{</span><span class="n">msg</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span>
 
 		<span class="c1"># args: elem, magreq, request</span>
 		<span class="c1"># test boolean arguments are boolean and set</span>
 		<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;elem&#39;</span><span class="p">,</span> <span class="s1">&#39;magreq&#39;</span><span class="p">,</span> <span class="s1">&#39;request&#39;</span><span class="p">]:</span>
 			<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">bool</span><span class="p">):</span>
-				<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;{} must be either True or False&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+				<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="si">{}</span><span class="s2">&#39; must be either True or False&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
 
 		<span class="bp">self</span><span class="o">.</span><span class="n">elem</span> <span class="o">=</span> <span class="n">elem</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">req_elem</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;req-elem&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()}</span>
@@ -473,11 +484,11 @@ sbident    </h1>
 		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">maglim</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span><span class="nb">float</span><span class="p">)):</span> 
 			<span class="bp">self</span><span class="o">.</span><span class="n">maglim</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">maglim</span><span class="p">)</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">vmag_lim</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;vmag-lim&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">maglim</span><span class="p">}</span>
-		<span class="k">elif</span> <span class="n">maglim</span><span class="o">==</span><span class="bp">None</span><span class="p">:</span>
+		<span class="k">elif</span> <span class="n">maglim</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">maglim</span> <span class="o">=</span> <span class="n">maglim</span>
-			<span class="bp">self</span><span class="o">.</span><span class="n">vmag_lim</span> <span class="o">=</span> <span class="bp">None</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">vmag_lim</span> <span class="o">=</span> <span class="kc">None</span>
 		<span class="k">else</span><span class="p">:</span>
-			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;maglim must be either numeric or None&quot;</span><span class="p">)</span>
+			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;maglim&#39; must be either numeric or None&quot;</span><span class="p">)</span>
 
 		<span class="c1"># test precision is either &#39;high&#39; or &#39;low&#39;</span>
 		<span class="k">if</span> <span class="n">precision</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;high&#39;</span><span class="p">,</span> <span class="s1">&#39;low&#39;</span><span class="p">]:</span>
@@ -488,7 +499,7 @@ sbident    </h1>
 		<span class="bp">self</span><span class="o">.</span><span class="n">suppress_first_pass</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;suppress-first-pass&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="o">==</span><span class="s1">&#39;high&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()}</span>
 
 		<span class="c1"># test filters is dict</span>
-		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">or</span> <span class="n">filters</span><span class="o">==</span><span class="bp">None</span><span class="p">:</span>
+		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">or</span> <span class="n">filters</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">filters</span> <span class="o">=</span> <span class="n">filters</span>
 		<span class="k">else</span><span class="p">:</span>
 			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;filters must be either a dictionary or None&quot;</span><span class="p">)</span>
@@ -515,10 +526,10 @@ sbident    </h1>
 				<span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;xobs-hel&#39;</span><span class="p">:</span> <span class="n">location</span><span class="p">[</span><span class="s1">&#39;xobs-hel&#39;</span><span class="p">]}</span>
 			<span class="k">else</span><span class="p">:</span>
 				<span class="c1"># location missing some required fields</span>
-				<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;location argument missing some required fields&#39;</span><span class="p">)</span>
+				<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;location&#39; argument missing some required fields&quot;</span><span class="p">)</span>
 		<span class="k">else</span><span class="p">:</span>
 				<span class="c1"># location type unexpected</span>
-				<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Unexpected argument type for location. Must be string or dictionary.&#39;</span><span class="p">)</span>
+				<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Unexpected argument type for &#39;location&#39;. Must be string or dictionary.&quot;</span><span class="p">)</span>
 
 		<span class="c1"># parse obstime; handle string, float (jdate), Time or dict</span>
 		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obstime</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -526,7 +537,7 @@ sbident    </h1>
 			<span class="bp">self</span><span class="o">.</span><span class="n">obstime</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;obs-time&#39;</span><span class="p">:</span> <span class="n">obstime</span><span class="p">}</span>
 		<span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obstime</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
 			<span class="c1"># assumes float is jdate</span>
-			<span class="bp">self</span><span class="o">.</span><span class="n">obstime</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;obs-time&#39;</span><span class="p">:</span> <span class="n">Time</span><span class="p">(</span><span class="n">obstime</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s1">&#39;jd&#39;</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">utc</span><span class="o">.</span><span class="n">iso</span><span class="p">}</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">obstime</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;obs-time&#39;</span><span class="p">:</span> <span class="n">Time</span><span class="p">(</span><span class="n">obstime</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;jd&#39;</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">utc</span><span class="o">.</span><span class="n">iso</span><span class="p">}</span>
 		<span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obstime</span><span class="p">,</span> <span class="n">Time</span><span class="p">):</span>
 			<span class="c1"># passing Time object</span>
 			<span class="n">obstime</span><span class="o">.</span><span class="n">precision</span> <span class="o">=</span> <span class="mi">0</span>
@@ -535,22 +546,29 @@ sbident    </h1>
 			<span class="bp">self</span><span class="o">.</span><span class="n">obstime</span> <span class="o">=</span> <span class="n">obstime</span>
 		<span class="k">else</span><span class="p">:</span>
 			<span class="c1"># obstime type unexpected</span>
-			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Unexpected argument type for obstime. Must be string, float (jdate) or Time.&#39;</span><span class="p">)</span>
+			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Unexpected argument type for &#39;obstime&#39;. Must be string, float (jdate) or Time.&quot;</span><span class="p">)</span>
 
-		<span class="c1"># parse and rewrite fov when a SkyCoord center</span>
 		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fov</span><span class="p">,</span> <span class="n">SkyCoord</span><span class="p">):</span>
 			<span class="c1"># if fov is of type SkyCoord get a center relative fov </span>
 			<span class="n">radec_jpl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">skycoord_to_jplstr</span><span class="p">(</span><span class="n">fov</span><span class="p">)</span>
 			<span class="n">fov</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;fov-ra-center&#39;</span><span class="p">:</span> <span class="n">radec_jpl</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;fov-dec-center&#39;</span><span class="p">:</span> <span class="n">radec_jpl</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span>
+		<span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fov</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">fov</span><span class="p">)</span><span class="o">==</span><span class="mi">2</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">SkyCoord</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fov</span><span class="p">):</span>
+			<span class="c1"># if fov is a list or tuple of SkyCoords we treat it as an edge type field of view</span>
+			<span class="n">radec_jpl0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">skycoord_to_jplstr</span><span class="p">(</span><span class="n">fov</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+			<span class="n">radec_jpl1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">skycoord_to_jplstr</span><span class="p">(</span><span class="n">fov</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+			<span class="n">fov</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;fov-ra-lim&#39;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">,</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">radec_jpl0</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">radec_jpl1</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="s1">&#39;fov-dec-lim&#39;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">,</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">radec_jpl0</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">radec_jpl1</span><span class="p">[</span><span class="mi">1</span><span class="p">])}</span>
 			
 		<span class="c1"># handle hwidth - this has precedence if it&#39;s defined</span>
-		<span class="k">if</span> <span class="n">hwidth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+		<span class="k">if</span> <span class="n">hwidth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 			<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">hwidth</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">hwidth</span><span class="p">)</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span>
 				<span class="n">fov</span><span class="p">[</span><span class="s1">&#39;fov-ra-hwidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">hwidth</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 				<span class="n">fov</span><span class="p">[</span><span class="s1">&#39;fov-dec-hwidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">hwidth</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 			<span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">hwidth</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
 				<span class="n">fov</span><span class="p">[</span><span class="s1">&#39;fov-ra-hwidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">hwidth</span><span class="p">)</span>
 				<span class="n">fov</span><span class="p">[</span><span class="s1">&#39;fov-dec-hwidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">hwidth</span><span class="p">)</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="c1">#unexpected hwidth type</span>
+				<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Unexpected argument type for &#39;hwidth&#39;; must be either numeric or list-like of numerics of length 2&quot;</span><span class="p">)</span>
 			
 		<span class="c1"># continued fov parsing</span>
 		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fov</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
@@ -564,28 +582,32 @@ sbident    </h1>
 				<span class="k">if</span> <span class="s1">&#39;fov-dec-hwidth&#39;</span> <span class="ow">in</span> <span class="n">fov</span><span class="p">:</span>
 					<span class="bp">self</span><span class="o">.</span><span class="n">fov</span><span class="p">[</span><span class="s1">&#39;fov-dec-hwidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fov</span><span class="p">[</span><span class="s1">&#39;fov-dec-hwidth&#39;</span><span class="p">]</span>
 			<span class="k">elif</span> <span class="p">(</span><span class="s1">&#39;fov-ra-lim&#39;</span> <span class="ow">in</span> <span class="n">fov</span> <span class="ow">and</span> <span class="s1">&#39;fov-dec-lim&#39;</span> <span class="ow">in</span> <span class="n">fov</span><span class="p">):</span>
-				<span class="c1"># edge fov method</span>
+				<span class="c1"># edge fov method - warn if hwidth defined</span>
 				<span class="bp">self</span><span class="o">.</span><span class="n">fov</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">fov</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;fov-ra-lim&#39;</span><span class="p">,</span> <span class="s1">&#39;fov-dec-lim&#39;</span><span class="p">]}</span>
+				
+				<span class="k">if</span> <span class="n">hwidth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+					<span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;&#39;hwidth&#39; ignored when using an edge-based field of view&quot;</span><span class="p">)</span>
+					
 			<span class="k">else</span><span class="p">:</span>
 				<span class="c1"># fov missing some required fields</span>
-				<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;fov argument missing required keys&#39;</span><span class="p">)</span>
+				<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;fov&#39; argument missing required keys&quot;</span><span class="p">)</span>
 		<span class="k">else</span><span class="p">:</span>
 			<span class="c1"># fov type unexpected</span>
-			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Unexpected argument type for fov; must be either SkyCoord or dictionary&#39;</span><span class="p">)</span>
+			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Unexpected argument type for &#39;fov&#39;; must be either SkyCoord or dictionary&quot;</span><span class="p">)</span>
 
 		<span class="bp">self</span><span class="o">.</span><span class="n">form_uri</span><span class="p">()</span>
 
 		<span class="k">if</span> <span class="n">request</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">make_request</span><span class="p">()</span>
 		<span class="k">else</span><span class="p">:</span>
-			<span class="bp">self</span><span class="o">.</span><span class="n">request</span> <span class="o">=</span> <span class="bp">False</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">request</span> <span class="o">=</span> <span class="kc">False</span>
 
 	<span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">		show representation of object in terms that are instantiate-able</span>
 <span class="sd">		&quot;&quot;&quot;</span>
 
-		<span class="nb">repr</span> <span class="o">=</span> <span class="s2">&quot;&lt;SBIdent(location={l}, obstime={t}, fov={fov}, filters={op}, precision=&#39;{p}&#39;, maglim={ml}, magreq={mr}, request={req})&gt;&quot;</span>
+		<span class="nb">repr</span> <span class="o">=</span> <span class="s2">&quot;&lt;SBIdent(location=</span><span class="si">{l}</span><span class="s2">, obstime=</span><span class="si">{t}</span><span class="s2">, fov=</span><span class="si">{fov}</span><span class="s2">, filters=</span><span class="si">{op}</span><span class="s2">, precision=&#39;</span><span class="si">{p}</span><span class="s2">&#39;, maglim=</span><span class="si">{ml}</span><span class="s2">, magreq=</span><span class="si">{mr}</span><span class="s2">, request=</span><span class="si">{req}</span><span class="s2">)&gt;&quot;</span>
 		<span class="k">return</span> <span class="nb">repr</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">obstime</span><span class="p">,</span> <span class="n">fov</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fov</span><span class="p">,</span> <span class="n">op</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="p">,</span> <span class="n">ml</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">maglim</span><span class="p">,</span>
 											<span class="n">mr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">magreq</span><span class="p">,</span> <span class="n">req</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">)</span>
 
@@ -601,12 +623,12 @@ sbident    </h1>
 						<span class="bp">self</span><span class="o">.</span><span class="n">mag_required</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">req_elem</span><span class="p">]</span>
 
 		<span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">build</span><span class="p">:</span>
-			<span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 				<span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
 
 		<span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="n">base_uri</span> <span class="o">+</span> <span class="n">urlencode</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
 
-		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s2">&quot;&amp;&quot;</span> <span class="o">+</span> <span class="n">urlencode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">)</span>
 
 		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri</span>
@@ -623,12 +645,12 @@ sbident    </h1>
 
 		<span class="c1"># report API error if one exists</span>
 		<span class="k">if</span> <span class="s1">&#39;code&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">:</span>
-			<span class="k">raise</span> <span class="ne">SystemError</span><span class="p">(</span><span class="s2">&quot;API error: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;message&#39;</span><span class="p">]))</span>
+			<span class="k">raise</span> <span class="ne">SystemError</span><span class="p">(</span><span class="s2">&quot;API error: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;message&#39;</span><span class="p">]))</span>
 
 		<span class="c1"># warn if API version is unexpected</span>
 		<span class="n">ver</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;signature&#39;</span><span class="p">][</span><span class="s1">&#39;version&#39;</span><span class="p">]</span>
 		<span class="k">if</span> <span class="n">ver</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">API_VERSION</span><span class="p">:</span>
-			<span class="n">version_warning</span> <span class="o">=</span> <span class="s2">&quot;Expected API version &#39;{ev}&#39; but response indicated version &#39;{v}&#39;. Unexpected behavior possible.&quot;</span>
+			<span class="n">version_warning</span> <span class="o">=</span> <span class="s2">&quot;Expected API version &#39;</span><span class="si">{ev}</span><span class="s2">&#39; but response indicated version &#39;</span><span class="si">{v}</span><span class="s2">&#39;. Unexpected behavior possible.&quot;</span>
 			<span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">version_warning</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">API_VERSION</span><span class="p">,</span><span class="n">ver</span><span class="p">))</span>
 
 	<span class="k">def</span> <span class="nf">parse_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -637,12 +659,12 @@ sbident    </h1>
 <span class="sd">		&quot;&quot;&quot;</span>
 
 		<span class="c1"># make sure json exists</span>
-		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 			<span class="k">raise</span> <span class="ne">UnboundLocalError</span><span class="p">(</span><span class="s2">&quot;No json to parse in API response&quot;</span><span class="p">)</span>
 
 		<span class="c1"># report API warning if one exists</span>
 		<span class="k">if</span> <span class="s1">&#39;warning&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">:</span>
-			<span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;API warning: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;warning&#39;</span><span class="p">]))</span>
+			<span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;API warning: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;warning&#39;</span><span class="p">]))</span>
 
 		<span class="c1"># set summary</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">summary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;summary&#39;</span><span class="p">]</span>
@@ -655,7 +677,7 @@ sbident    </h1>
 				<span class="k">continue</span>
 
 		<span class="c1"># no data returned</span>
-		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_field</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_field</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 			<span class="k">return</span>
 
 		<span class="c1"># column fields depend on first or second pass selection</span>
@@ -740,8 +762,8 @@ The URI that is generated by the object instantiation.</li>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">obstime</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fov</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="s1">&#39;high&#39;</span><span class="p">,</span> <span class="n">hwidth</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">elem</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">maglim</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
-							<span class="n">magreq</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">request</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+            <div class="codehilite"><pre><span></span>	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">obstime</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fov</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="s1">&#39;high&#39;</span><span class="p">,</span> <span class="n">hwidth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">elem</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">maglim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+							<span class="n">magreq</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">request</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 
 		<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">		Parameters</span>
@@ -750,8 +772,8 @@ The URI that is generated by the object instantiation.</li>
 <span class="sd">			The observer location.  Can be an MPC observatory code string or a dictionary of the following formats specified in the API documentation: geodetic coordinates, parallax, geocentric state vector or heliocentric state vector.</span>
 <span class="sd">		obstime : numeric or time, required</span>
 <span class="sd">			The time of observation.  Can be numeric in which case it is assumed to be a Julian date.  Otherwise use a time object.</span>
-<span class="sd">		fov : SkyCoord or dict, required</span>
-<span class="sd">			Field of view.  Specify a center-based field of view with a SkyCoord or form a dictionary as specified by the API &#39;field of view&#39; specifications for an edge-based field of view.</span>
+<span class="sd">		fov : SkyCoord or list-like of SkyCoord or dict, required</span>
+<span class="sd">			Field of view.  Specify a center-based field of view with a SkyCoord or an edge based field of view with a list (of length 2) of SkyCoords.</span>
 <span class="sd">		hwidth : numeric or list-like, optional</span>
 <span class="sd">			Half width of the field of view (in degrees) when field of view specified by a center-based SkyCoord.  If hwdith is a single numeric value both RA and DEC will have the same width.  If hwidth is list-like the RA and DEC width will correspond to the first and second elements of the list respectively.  API defaults to 0.5 if not specified.  Ignored if not using a center-based field of view.  default: None</span>
 <span class="sd">		precision : &#39;low&#39; or &#39;high&#39;, optional</span>
@@ -769,19 +791,19 @@ The URI that is generated by the object instantiation.</li>
 <span class="sd">		&quot;&quot;&quot;</span>
 
 		<span class="c1"># initializing some attributes</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">json</span> <span class="o">=</span> <span class="bp">None</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">summary</span> <span class="o">=</span> <span class="bp">None</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">data_field</span> <span class="o">=</span> <span class="bp">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">json</span> <span class="o">=</span> <span class="kc">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">summary</span> <span class="o">=</span> <span class="kc">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">data_field</span> <span class="o">=</span> <span class="kc">None</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span>
 
 		<span class="c1"># minimal warning format</span>
-		<span class="n">warnings</span><span class="o">.</span><span class="n">formatwarning</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">msg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">f</span><span class="s1">&#39;{msg}</span><span class="se">\n</span><span class="s1">&#39;</span>
+		<span class="n">warnings</span><span class="o">.</span><span class="n">formatwarning</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">msg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;Warning: </span><span class="si">{</span><span class="n">msg</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span>
 
 		<span class="c1"># args: elem, magreq, request</span>
 		<span class="c1"># test boolean arguments are boolean and set</span>
 		<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;elem&#39;</span><span class="p">,</span> <span class="s1">&#39;magreq&#39;</span><span class="p">,</span> <span class="s1">&#39;request&#39;</span><span class="p">]:</span>
 			<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">bool</span><span class="p">):</span>
-				<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;{} must be either True or False&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+				<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="si">{}</span><span class="s2">&#39; must be either True or False&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
 
 		<span class="bp">self</span><span class="o">.</span><span class="n">elem</span> <span class="o">=</span> <span class="n">elem</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">req_elem</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;req-elem&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()}</span>
@@ -795,11 +817,11 @@ The URI that is generated by the object instantiation.</li>
 		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">maglim</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span><span class="nb">float</span><span class="p">)):</span> 
 			<span class="bp">self</span><span class="o">.</span><span class="n">maglim</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">maglim</span><span class="p">)</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">vmag_lim</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;vmag-lim&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">maglim</span><span class="p">}</span>
-		<span class="k">elif</span> <span class="n">maglim</span><span class="o">==</span><span class="bp">None</span><span class="p">:</span>
+		<span class="k">elif</span> <span class="n">maglim</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">maglim</span> <span class="o">=</span> <span class="n">maglim</span>
-			<span class="bp">self</span><span class="o">.</span><span class="n">vmag_lim</span> <span class="o">=</span> <span class="bp">None</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">vmag_lim</span> <span class="o">=</span> <span class="kc">None</span>
 		<span class="k">else</span><span class="p">:</span>
-			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;maglim must be either numeric or None&quot;</span><span class="p">)</span>
+			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;maglim&#39; must be either numeric or None&quot;</span><span class="p">)</span>
 
 		<span class="c1"># test precision is either &#39;high&#39; or &#39;low&#39;</span>
 		<span class="k">if</span> <span class="n">precision</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;high&#39;</span><span class="p">,</span> <span class="s1">&#39;low&#39;</span><span class="p">]:</span>
@@ -810,7 +832,7 @@ The URI that is generated by the object instantiation.</li>
 		<span class="bp">self</span><span class="o">.</span><span class="n">suppress_first_pass</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;suppress-first-pass&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="o">==</span><span class="s1">&#39;high&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()}</span>
 
 		<span class="c1"># test filters is dict</span>
-		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">or</span> <span class="n">filters</span><span class="o">==</span><span class="bp">None</span><span class="p">:</span>
+		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">or</span> <span class="n">filters</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">filters</span> <span class="o">=</span> <span class="n">filters</span>
 		<span class="k">else</span><span class="p">:</span>
 			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;filters must be either a dictionary or None&quot;</span><span class="p">)</span>
@@ -837,10 +859,10 @@ The URI that is generated by the object instantiation.</li>
 				<span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;xobs-hel&#39;</span><span class="p">:</span> <span class="n">location</span><span class="p">[</span><span class="s1">&#39;xobs-hel&#39;</span><span class="p">]}</span>
 			<span class="k">else</span><span class="p">:</span>
 				<span class="c1"># location missing some required fields</span>
-				<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;location argument missing some required fields&#39;</span><span class="p">)</span>
+				<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;location&#39; argument missing some required fields&quot;</span><span class="p">)</span>
 		<span class="k">else</span><span class="p">:</span>
 				<span class="c1"># location type unexpected</span>
-				<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Unexpected argument type for location. Must be string or dictionary.&#39;</span><span class="p">)</span>
+				<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Unexpected argument type for &#39;location&#39;. Must be string or dictionary.&quot;</span><span class="p">)</span>
 
 		<span class="c1"># parse obstime; handle string, float (jdate), Time or dict</span>
 		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obstime</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -848,7 +870,7 @@ The URI that is generated by the object instantiation.</li>
 			<span class="bp">self</span><span class="o">.</span><span class="n">obstime</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;obs-time&#39;</span><span class="p">:</span> <span class="n">obstime</span><span class="p">}</span>
 		<span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obstime</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
 			<span class="c1"># assumes float is jdate</span>
-			<span class="bp">self</span><span class="o">.</span><span class="n">obstime</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;obs-time&#39;</span><span class="p">:</span> <span class="n">Time</span><span class="p">(</span><span class="n">obstime</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s1">&#39;jd&#39;</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">utc</span><span class="o">.</span><span class="n">iso</span><span class="p">}</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">obstime</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;obs-time&#39;</span><span class="p">:</span> <span class="n">Time</span><span class="p">(</span><span class="n">obstime</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;jd&#39;</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">utc</span><span class="o">.</span><span class="n">iso</span><span class="p">}</span>
 		<span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obstime</span><span class="p">,</span> <span class="n">Time</span><span class="p">):</span>
 			<span class="c1"># passing Time object</span>
 			<span class="n">obstime</span><span class="o">.</span><span class="n">precision</span> <span class="o">=</span> <span class="mi">0</span>
@@ -857,22 +879,29 @@ The URI that is generated by the object instantiation.</li>
 			<span class="bp">self</span><span class="o">.</span><span class="n">obstime</span> <span class="o">=</span> <span class="n">obstime</span>
 		<span class="k">else</span><span class="p">:</span>
 			<span class="c1"># obstime type unexpected</span>
-			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Unexpected argument type for obstime. Must be string, float (jdate) or Time.&#39;</span><span class="p">)</span>
+			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Unexpected argument type for &#39;obstime&#39;. Must be string, float (jdate) or Time.&quot;</span><span class="p">)</span>
 
-		<span class="c1"># parse and rewrite fov when a SkyCoord center</span>
 		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fov</span><span class="p">,</span> <span class="n">SkyCoord</span><span class="p">):</span>
 			<span class="c1"># if fov is of type SkyCoord get a center relative fov </span>
 			<span class="n">radec_jpl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">skycoord_to_jplstr</span><span class="p">(</span><span class="n">fov</span><span class="p">)</span>
 			<span class="n">fov</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;fov-ra-center&#39;</span><span class="p">:</span> <span class="n">radec_jpl</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;fov-dec-center&#39;</span><span class="p">:</span> <span class="n">radec_jpl</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span>
+		<span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fov</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">fov</span><span class="p">)</span><span class="o">==</span><span class="mi">2</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">SkyCoord</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fov</span><span class="p">):</span>
+			<span class="c1"># if fov is a list or tuple of SkyCoords we treat it as an edge type field of view</span>
+			<span class="n">radec_jpl0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">skycoord_to_jplstr</span><span class="p">(</span><span class="n">fov</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+			<span class="n">radec_jpl1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">skycoord_to_jplstr</span><span class="p">(</span><span class="n">fov</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+			<span class="n">fov</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;fov-ra-lim&#39;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">,</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">radec_jpl0</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">radec_jpl1</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="s1">&#39;fov-dec-lim&#39;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">,</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">radec_jpl0</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">radec_jpl1</span><span class="p">[</span><span class="mi">1</span><span class="p">])}</span>
 			
 		<span class="c1"># handle hwidth - this has precedence if it&#39;s defined</span>
-		<span class="k">if</span> <span class="n">hwidth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+		<span class="k">if</span> <span class="n">hwidth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 			<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">hwidth</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">hwidth</span><span class="p">)</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span>
 				<span class="n">fov</span><span class="p">[</span><span class="s1">&#39;fov-ra-hwidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">hwidth</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 				<span class="n">fov</span><span class="p">[</span><span class="s1">&#39;fov-dec-hwidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">hwidth</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 			<span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">hwidth</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
 				<span class="n">fov</span><span class="p">[</span><span class="s1">&#39;fov-ra-hwidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">hwidth</span><span class="p">)</span>
 				<span class="n">fov</span><span class="p">[</span><span class="s1">&#39;fov-dec-hwidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">hwidth</span><span class="p">)</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="c1">#unexpected hwidth type</span>
+				<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Unexpected argument type for &#39;hwidth&#39;; must be either numeric or list-like of numerics of length 2&quot;</span><span class="p">)</span>
 			
 		<span class="c1"># continued fov parsing</span>
 		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fov</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
@@ -886,21 +915,25 @@ The URI that is generated by the object instantiation.</li>
 				<span class="k">if</span> <span class="s1">&#39;fov-dec-hwidth&#39;</span> <span class="ow">in</span> <span class="n">fov</span><span class="p">:</span>
 					<span class="bp">self</span><span class="o">.</span><span class="n">fov</span><span class="p">[</span><span class="s1">&#39;fov-dec-hwidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fov</span><span class="p">[</span><span class="s1">&#39;fov-dec-hwidth&#39;</span><span class="p">]</span>
 			<span class="k">elif</span> <span class="p">(</span><span class="s1">&#39;fov-ra-lim&#39;</span> <span class="ow">in</span> <span class="n">fov</span> <span class="ow">and</span> <span class="s1">&#39;fov-dec-lim&#39;</span> <span class="ow">in</span> <span class="n">fov</span><span class="p">):</span>
-				<span class="c1"># edge fov method</span>
+				<span class="c1"># edge fov method - warn if hwidth defined</span>
 				<span class="bp">self</span><span class="o">.</span><span class="n">fov</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">fov</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;fov-ra-lim&#39;</span><span class="p">,</span> <span class="s1">&#39;fov-dec-lim&#39;</span><span class="p">]}</span>
+				
+				<span class="k">if</span> <span class="n">hwidth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+					<span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;&#39;hwidth&#39; ignored when using an edge-based field of view&quot;</span><span class="p">)</span>
+					
 			<span class="k">else</span><span class="p">:</span>
 				<span class="c1"># fov missing some required fields</span>
-				<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;fov argument missing required keys&#39;</span><span class="p">)</span>
+				<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;fov&#39; argument missing required keys&quot;</span><span class="p">)</span>
 		<span class="k">else</span><span class="p">:</span>
 			<span class="c1"># fov type unexpected</span>
-			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Unexpected argument type for fov; must be either SkyCoord or dictionary&#39;</span><span class="p">)</span>
+			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Unexpected argument type for &#39;fov&#39;; must be either SkyCoord or dictionary&quot;</span><span class="p">)</span>
 
 		<span class="bp">self</span><span class="o">.</span><span class="n">form_uri</span><span class="p">()</span>
 
 		<span class="k">if</span> <span class="n">request</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">make_request</span><span class="p">()</span>
 		<span class="k">else</span><span class="p">:</span>
-			<span class="bp">self</span><span class="o">.</span><span class="n">request</span> <span class="o">=</span> <span class="bp">False</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">request</span> <span class="o">=</span> <span class="kc">False</span>
 </pre></div>
 
         </details>
@@ -912,8 +945,8 @@ The URI that is generated by the object instantiation.</li>
 The observer location.  Can be an MPC observatory code string or a dictionary of the following formats specified in the API documentation: geodetic coordinates, parallax, geocentric state vector or heliocentric state vector.</li>
 <li><strong>obstime</strong> (numeric or time, required):
 The time of observation.  Can be numeric in which case it is assumed to be a Julian date.  Otherwise use a time object.</li>
-<li><strong>fov</strong> (SkyCoord or dict, required):
-Field of view.  Specify a center-based field of view with a SkyCoord or form a dictionary as specified by the API 'field of view' specifications for an edge-based field of view.</li>
+<li><strong>fov</strong> (SkyCoord or list-like of SkyCoord or dict, required):
+Field of view.  Specify a center-based field of view with a SkyCoord or an edge based field of view with a list (of length 2) of SkyCoords.</li>
 <li><strong>hwidth</strong> (numeric or list-like, optional):
 Half width of the field of view (in degrees) when field of view specified by a center-based SkyCoord.  If hwdith is a single numeric value both RA and DEC will have the same width.  If hwidth is list-like the RA and DEC width will correspond to the first and second elements of the list respectively.  API defaults to 0.5 if not specified.  Ignored if not using a center-based field of view.  default: None</li>
 <li><strong>precision</strong> ('low' or 'high', optional):
@@ -966,12 +999,12 @@ When false the API URI is formed but the request is not made. default : True</li
 						<span class="bp">self</span><span class="o">.</span><span class="n">mag_required</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">req_elem</span><span class="p">]</span>
 
 		<span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">build</span><span class="p">:</span>
-			<span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 				<span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
 
 		<span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="n">base_uri</span> <span class="o">+</span> <span class="n">urlencode</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
 
-		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s2">&quot;&amp;&quot;</span> <span class="o">+</span> <span class="n">urlencode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">)</span>
 
 		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri</span>
@@ -1006,12 +1039,12 @@ When false the API URI is formed but the request is not made. default : True</li
 
 		<span class="c1"># report API error if one exists</span>
 		<span class="k">if</span> <span class="s1">&#39;code&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">:</span>
-			<span class="k">raise</span> <span class="ne">SystemError</span><span class="p">(</span><span class="s2">&quot;API error: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;message&#39;</span><span class="p">]))</span>
+			<span class="k">raise</span> <span class="ne">SystemError</span><span class="p">(</span><span class="s2">&quot;API error: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;message&#39;</span><span class="p">]))</span>
 
 		<span class="c1"># warn if API version is unexpected</span>
 		<span class="n">ver</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;signature&#39;</span><span class="p">][</span><span class="s1">&#39;version&#39;</span><span class="p">]</span>
 		<span class="k">if</span> <span class="n">ver</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">API_VERSION</span><span class="p">:</span>
-			<span class="n">version_warning</span> <span class="o">=</span> <span class="s2">&quot;Expected API version &#39;{ev}&#39; but response indicated version &#39;{v}&#39;. Unexpected behavior possible.&quot;</span>
+			<span class="n">version_warning</span> <span class="o">=</span> <span class="s2">&quot;Expected API version &#39;</span><span class="si">{ev}</span><span class="s2">&#39; but response indicated version &#39;</span><span class="si">{v}</span><span class="s2">&#39;. Unexpected behavior possible.&quot;</span>
 			<span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">version_warning</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">API_VERSION</span><span class="p">,</span><span class="n">ver</span><span class="p">))</span>
 </pre></div>
 
@@ -1038,12 +1071,12 @@ When false the API URI is formed but the request is not made. default : True</li
 <span class="sd">		&quot;&quot;&quot;</span>
 
 		<span class="c1"># make sure json exists</span>
-		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 			<span class="k">raise</span> <span class="ne">UnboundLocalError</span><span class="p">(</span><span class="s2">&quot;No json to parse in API response&quot;</span><span class="p">)</span>
 
 		<span class="c1"># report API warning if one exists</span>
 		<span class="k">if</span> <span class="s1">&#39;warning&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">:</span>
-			<span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;API warning: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;warning&#39;</span><span class="p">]))</span>
+			<span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;API warning: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;warning&#39;</span><span class="p">]))</span>
 
 		<span class="c1"># set summary</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">summary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;summary&#39;</span><span class="p">]</span>
@@ -1056,7 +1089,7 @@ When false the API URI is formed but the request is not made. default : True</li
 				<span class="k">continue</span>
 
 		<span class="c1"># no data returned</span>
-		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_field</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_field</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 			<span class="k">return</span>
 
 		<span class="c1"># column fields depend on first or second pass selection</span>

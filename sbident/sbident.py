@@ -40,8 +40,8 @@ class SBIdent:
 			The observer location.  Can be an MPC observatory code string or a dictionary of the following formats specified in the API documentation: geodetic coordinates, parallax, geocentric state vector or heliocentric state vector.
 		obstime : numeric or time, required
 			The time of observation.  Can be numeric in which case it is assumed to be a Julian date.  Otherwise use a time object.
-		fov : SkyCoord or dict, required
-			Field of view.  Specify a center-based field of view with a SkyCoord or form a dictionary as specified by the API 'field of view' specifications for an edge-based field of view.
+		fov : SkyCoord or list-like of SkyCoord or dict, required
+			Field of view.  Specify a center-based field of view with a SkyCoord or an edge based field of view with a list (of length 2) of SkyCoords.
 		hwidth : numeric or list-like, optional
 			Half width of the field of view (in degrees) when field of view specified by a center-based SkyCoord.  If hwdith is a single numeric value both RA and DEC will have the same width.  If hwidth is list-like the RA and DEC width will correspond to the first and second elements of the list respectively.  API defaults to 0.5 if not specified.  Ignored if not using a center-based field of view.  default: None
 		precision : 'low' or 'high', optional
@@ -65,13 +65,13 @@ class SBIdent:
 		self.results = Table()
 
 		# minimal warning format
-		warnings.formatwarning = lambda msg, *args, **kwargs: f'{msg}\n'
+		warnings.formatwarning = lambda msg, *args, **kwargs: f'Warning: {msg}\n'
 
 		# args: elem, magreq, request
 		# test boolean arguments are boolean and set
 		for a in ['elem', 'magreq', 'request']:
 			if not isinstance(eval(a), bool):
-				raise TypeError("{} must be either True or False".format(a))
+				raise TypeError("'{}' must be either True or False".format(a))
 
 		self.elem = elem
 		self.req_elem = {'req-elem': str(elem).lower()}
@@ -89,7 +89,7 @@ class SBIdent:
 			self.maglim = maglim
 			self.vmag_lim = None
 		else:
-			raise TypeError("maglim must be either numeric or None")
+			raise TypeError("'maglim' must be either numeric or None")
 
 		# test precision is either 'high' or 'low'
 		if precision not in ['high', 'low']:
@@ -127,10 +127,10 @@ class SBIdent:
 				self.location = {'xobs-hel': location['xobs-hel']}
 			else:
 				# location missing some required fields
-				raise ValueError('location argument missing some required fields')
+				raise ValueError("'location' argument missing some required fields")
 		else:
 				# location type unexpected
-				raise TypeError('Unexpected argument type for location. Must be string or dictionary.')
+				raise TypeError("Unexpected argument type for 'location'. Must be string or dictionary.")
 
 		# parse obstime; handle string, float (jdate), Time or dict
 		if isinstance(obstime, str):
@@ -147,13 +147,17 @@ class SBIdent:
 			self.obstime = obstime
 		else:
 			# obstime type unexpected
-			raise TypeError('Unexpected argument type for obstime. Must be string, float (jdate) or Time.')
+			raise TypeError("Unexpected argument type for 'obstime'. Must be string, float (jdate) or Time.")
 
-		# parse and rewrite fov when a SkyCoord center
 		if isinstance(fov, SkyCoord):
 			# if fov is of type SkyCoord get a center relative fov 
 			radec_jpl = self.skycoord_to_jplstr(fov)
 			fov = {'fov-ra-center': radec_jpl[0], 'fov-dec-center': radec_jpl[1]}
+		elif isinstance(fov, (tuple, list)) and len(fov)==2 and all(isinstance(f, SkyCoord) for f in fov):
+			# if fov is a list or tuple of SkyCoords we treat it as an edge type field of view
+			radec_jpl0 = self.skycoord_to_jplstr(fov[0])
+			radec_jpl1 = self.skycoord_to_jplstr(fov[1])
+			fov = {'fov-ra-lim': "{},{}".format(radec_jpl0[0],radec_jpl1[0]), 'fov-dec-lim': "{},{}".format(radec_jpl0[1],radec_jpl1[1])}
 			
 		# handle hwidth - this has precedence if it's defined
 		if hwidth is not None:
@@ -163,6 +167,9 @@ class SBIdent:
 			elif isinstance(hwidth, (int, float)):
 				fov['fov-ra-hwidth'] = str(hwidth)
 				fov['fov-dec-hwidth'] = str(hwidth)
+			else:
+				#unexpected hwidth type
+				raise TypeError("Unexpected argument type for 'hwidth'; must be either numeric or list-like of numerics of length 2")
 			
 		# continued fov parsing
 		if isinstance(fov, dict):
@@ -176,14 +183,18 @@ class SBIdent:
 				if 'fov-dec-hwidth' in fov:
 					self.fov['fov-dec-hwidth'] = fov['fov-dec-hwidth']
 			elif ('fov-ra-lim' in fov and 'fov-dec-lim' in fov):
-				# edge fov method
+				# edge fov method - warn if hwidth defined
 				self.fov = {k:fov[k] for k in ['fov-ra-lim', 'fov-dec-lim']}
+				
+				if hwidth is not None:
+					warnings.warn("'hwidth' ignored when using an edge-based field of view")
+					
 			else:
 				# fov missing some required fields
-				raise ValueError('fov argument missing required keys')
+				raise ValueError("'fov' argument missing required keys")
 		else:
 			# fov type unexpected
-			raise TypeError('Unexpected argument type for fov; must be either SkyCoord or dictionary')
+			raise TypeError("Unexpected argument type for 'fov'; must be either SkyCoord or dictionary")
 
 		self.form_uri()
 
