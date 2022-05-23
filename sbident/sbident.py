@@ -315,7 +315,7 @@ class SBIdent:
 			The SkyCoord that you want to convert to a JPL string.
 		"""
 
-		cstr = c.icrs.to_string('hmsdms', sep=":", precision=2)
+		cstr = c.icrs.to_string('hmsdms', sep=":", precision=2).replace('+','')
 		radec_jpl = cstr.replace('-','M').replace(':','-').split(' ')
 
 		return radec_jpl
