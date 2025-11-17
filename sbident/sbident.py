@@ -241,6 +241,7 @@ class SBIdent:
 
 		# read & set json
 		response = requests.get(self.uri)
+		response.raise_for_status()
 		json = response.json()
 		self.json = json
 
